@@ -1,0 +1,19 @@
+/* Example of use: I used send_sms procedure in Oracle APEX application
+                   to send welcome SMS message to each new subscribed customer.
+*/
+DECLARE
+  lv_twilio_user_name     VARCHAR2(300);
+  lv_twilio_password      VARCHAR2(300);
+  lv_twilio_from_phone_no VARCHAR2(300);
+  lv_cust_phone_no        VARCHAR2(300);
+  lv_msg_body             VARCHAR2(1000);
+BEGIN
+  -- Get Twilio credentials from setup table
+  -- Get welcome SMS body from setup table
+  -- Get new customer phone number
+  send_sms(lv_twilio_user_name,
+           lv_twilio_password,
+           lv_twilio_from_phone_no,
+           lv_cust_phone_no,
+           lv_msg_body);
+END;
