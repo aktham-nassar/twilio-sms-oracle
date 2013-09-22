@@ -1,7 +1,7 @@
-CREATE OR REPLACE PROCEDURE send_sms(p_user     IN VARCHAR2,-- Twilio user name
-                                     p_pass     IN VARCHAR2,-- Twilio password
-                                     p_from     IN VARCHAR2,-- Twilio From phone number
-                                     p_to       IN VARCHAR2,-- Phone number of SMS recipient(s) colon delimited.
+CREATE OR REPLACE PROCEDURE send_sms(p_user     IN VARCHAR2, -- Twilio user name
+                                     p_pass     IN VARCHAR2, -- Twilio password
+                                     p_from     IN VARCHAR2, -- Twilio From phone number
+                                     p_to       IN VARCHAR2, -- Phone number of SMS recipient(s) colon delimited.
                                      p_sms_body IN VARCHAR2) IS
   t_http_req       utl_http.req;
   t_http_resp      utl_http.resp;
@@ -23,10 +23,11 @@ BEGIN
   lv_sms_body    := p_sms_body;
   lv_recipients  := apex_util.string_to_table(p_to, ':');
   FOR i IN 1 .. lv_recipients.count LOOP
-    lv_to := REPLACE(lv_recipients(i), '+', '%2B');
   
     lv_post_params := 'From=' || lv_from || '&To=' || lv_to || '&Body=' ||
                       lv_sms_body;
+    lv_post_params := utl_url.escape(lv_post_params);
+    v_url          := utl_url.escape(v_url);
     utl_http.set_wallet('file:' || '/vhosts/schema/api_twilio',
                         'password12');
     t_http_req := utl_http.begin_request(v_url, 'POST', 'HTTP/1.1');
