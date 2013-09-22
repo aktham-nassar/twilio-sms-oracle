@@ -19,7 +19,7 @@ CREATE OR REPLACE PROCEDURE send_sms(p_user     IN VARCHAR2, -- Twilio user name
   lv_recipients apex_application_global.vc_arr2;
 BEGIN
   c_xml_response := NULL;
-  lv_from        := REPLACE(p_from, '+', '%2B');
+  lv_from        := p_from;
   lv_sms_body    := p_sms_body;
   lv_recipients  := apex_util.string_to_table(p_to, ':');
   FOR i IN 1 .. lv_recipients.count LOOP
