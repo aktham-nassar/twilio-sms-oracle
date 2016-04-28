@@ -45,9 +45,9 @@ BEGIN
         lv_resp_line := NULL;
         utl_http.read_line(t_http_resp, lv_resp_line, TRUE);
         lv_response_text := lv_response_text || lv_resp_line;
-      EXCEPTION
-        WHEN OTHERS THEN
-          EXIT;
+      EXCEPTION 
+      WHEN utl_http.end_of_body THEN
+        utl_http.end_response(t_http_resp);
       END;
     END LOOP;
     utl_http.end_response(t_http_resp);
